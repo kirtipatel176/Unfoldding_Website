@@ -193,6 +193,36 @@ const PortfolioGrid: React.FC = () => {
           </div>
         </div>
 
+        {/* Row 4 - 2 Wide Boxes */}
+
+        {/* 9. Project 9 - Wide Bottom Left - Row 4, Col 1-2 */}
+        <div className="md:col-span-2 md:row-span-1 relative bg-gray-600 overflow-hidden group cursor-pointer">
+          <div className="w-full h-full bg-gray-700 flex items-center justify-center text-gray-400 font-sans tracking-widest text-sm group-hover:bg-gray-600 transition-colors duration-700">
+            PROJECT 9
+          </div>
+          <div className="absolute bottom-8 left-8 z-10">
+            <h4 className="font-serif italic text-brand-gold text-sm mb-2 opacity-0 group-hover:opacity-100 transition-opacity">Design</h4>
+            <h3 className="font-display text-white text-3xl tracking-widest">PROJECT 9</h3>
+          </div>
+          <div className="absolute top-6 right-6 w-10 h-10 border border-white/20 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <MoveUpRight className="w-5 h-5" />
+          </div>
+        </div>
+
+        {/* 10. Project 10 - Wide Bottom Right - Row 4, Col 3-4 */}
+        <div className="md:col-span-2 md:row-span-1 relative bg-gray-500 overflow-hidden group cursor-pointer">
+          <div className="w-full h-full bg-gray-600 flex items-center justify-center text-gray-300 font-sans tracking-widest text-sm group-hover:bg-gray-500 transition-colors duration-700">
+            PROJECT 10
+          </div>
+          <div className="absolute bottom-8 left-8 z-10">
+            <h4 className="font-serif italic text-brand-gold text-sm mb-2 opacity-0 group-hover:opacity-100 transition-opacity">Branding</h4>
+            <h3 className="font-display text-white text-3xl tracking-widest">PROJECT 10</h3>
+          </div>
+          <div className="absolute top-6 right-6 w-10 h-10 border border-white/20 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <MoveUpRight className="w-5 h-5" />
+          </div>
+        </div>
+
       </div>
     </section>
   );
