@@ -1,10 +1,12 @@
+'use client';
+
 import React from 'react';
 
 const Footer: React.FC = () => {
   return (
     <footer className="bg-brand-cream text-brand-green/60 text-xs md:text-sm py-8 border-t border-brand-green/10">
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-center md:text-left">
-        
+
         <div>
           © 2025-26 by www.unfolding.co.in
         </div>

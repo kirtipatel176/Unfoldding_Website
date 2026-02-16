@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import clientBg from '../assets/images/client.png';
+import Image from 'next/image';
 
 const Clients: React.FC = () => {
   const clients = [
@@ -12,7 +14,7 @@ const Clients: React.FC = () => {
     <section
       className="w-full min-h-[100vh] py-16 md:py-40 relative overflow-hidden bg-center bg-no-repeat flex items-center"
       style={{
-        backgroundImage: `url(${clientBg})`,
+        backgroundImage: `url(/images/client.png)`,
         backgroundSize: 'cover',
         backgroundAttachment: 'scroll'
       }}

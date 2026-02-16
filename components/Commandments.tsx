@@ -1,6 +1,8 @@
+'use client';
+
 import React from 'react';
+import Image from 'next/image';
 import { Commandment } from '../types';
-import mosesImage from '../assets/images/moses.png';
 
 const COMMANDMENTS_DATA: Commandment[] = [
   { id: 1, title: "THOU SHALT BEGIN WITH TRUTH", description: "For every brand story must rise from something real — a belief, not a briefing." },
@@ -17,63 +19,61 @@ const COMMANDMENTS_DATA: Commandment[] = [
 
 const Commandments: React.FC = () => {
   return (
-    <section className="w-full relative flex flex-col md:flex-row min-h-screen bg-white overflow-hidden z-50">
+    <section className="w-full min-h-screen flex flex-col md:flex-row bg-white overflow-hidden relative mt-0 pt-0">
 
-      {/* Left Column: Graphics & Title */}
-      <div className="w-full md:w-[40%] bg-brand-cream relative min-h-[50vh] md:min-h-screen overflow-hidden">
+      {/* PROPHET IMAGE — CENTERED BETWEEN SECTIONS */}
+      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-20 w-[60%] md:w-[40%] h-full pointer-events-none">
+        <Image
+          src="/images/elderly-prophet-transparent.png"
+          alt="Elderly Prophet with Stone Tablets"
+          width={900}
+          height={1400}
+          priority
+          className="w-full h-auto object-contain object-bottom"
+        />
+      </div>
 
-        {/* Huge '10' - Positioning based on PDF visual */}
-        <div className="absolute top-[10%] left-[-2%] md:left-0 z-10 leading-none select-none">
-          <span className="font-serif text-[200px] md:text-[450px] text-[#A68A56] leading-none block transform -translate-x-8 md:-translate-x-16">
+      {/* LEFT PANEL */}
+      <div className="relative w-full md:w-[50%] bg-brand-cream min-h-[50vh] md:min-h-screen flex items-end overflow-hidden">
+
+        {/* BIG 10 */}
+        <div className="absolute top-[8%] left-[-5%] z-10 select-none">
+          <span className="font-serif text-[160px] sm:text-[260px] md:text-[380px] lg:text-[460px] text-[#A68A56] leading-none opacity-50">
             10
           </span>
         </div>
 
-        {/* Vertical 'COMMANDMENTS' Text */}
-        <div className="absolute top-[5%] left-[35%] md:left-[30%] h-[90%] flex items-center z-10 select-none pointer-events-none">
+        {/* VERTICAL COMMANDMENTS */}
+        <div className="absolute inset-y-0 left-[20%] flex items-center z-10 pointer-events-none">
           <h2
-            className="font-display text-[80px] md:text-[140px] text-transparent leading-none tracking-tight opacity-90"
+            className="font-display text-[60px] sm:text-[90px] md:text-[120px] lg:text-[140px] tracking-tight text-transparent"
             style={{
               writingMode: 'sideways-lr',
-              textOrientation: 'mixed',
-              WebkitTextStroke: '2px #0B4634',
+              WebkitTextStroke: '1px #0B4634',
             }}
           >
             COMMANDMENTS
           </h2>
         </div>
-
-        {/* Moses Figure - Positioned to bridge between sections */}
-        {/* <div className="absolute bottom-0 left-[10%] md:left-[15%] w-[70%] md:w-[60%] z-20 pointer-events-none">
-          <img
-            src={mosesImage}
-            alt="Moses with Commandments"
-            className="w-full h-auto object-contain"
-          />
-        </div> */}
-
       </div>
 
-      {/* Right Column: Content List */}
-      <div className="w-full md:w-[60%] bg-[#0B4634] text-white px-6 md:px-16 py-12 md:py-20 relative flex flex-col justify-center">
+      {/* RIGHT PANEL */}
+      <div className="relative w-full md:w-[50%] bg-[#0B4634] text-white px-6 md:px-16 py-12 md:py-20 flex items-center">
 
-        {/* Red Accent Line Top Right */}
-        {/* <div className="absolute top-0 right-0 md:right-12 w-24 h-2 bg-red-600"></div> */}
-
-        <div className="space-y-6 md:space-y-8 max-w-3xl relative z-30">
+        <div className="space-y-6 md:space-y-8 max-w-3xl z-30">
           {COMMANDMENTS_DATA.map((cmd) => (
-            <div key={cmd.id} className="flex flex-col group">
-              <h3 className="font-sans font-extrabold text-base md:text-lg uppercase mb-1 tracking-wide text-white group-hover:text-[#A68A56] transition-colors">
+            <div key={cmd.id}>
+              <h3 className="font-sans font-extrabold uppercase text-sm md:text-lg tracking-wide mb-1 transition-colors hover:text-[#A68A56]">
                 {cmd.title}
               </h3>
-              <p className="font-sans text-white/70 text-sm md:text-base leading-relaxed font-normal">
+              <p className="font-sans text-white/70 text-sm md:text-base leading-relaxed">
                 {cmd.description}
               </p>
             </div>
           ))}
         </div>
-      </div>
 
+      </div>
     </section>
   );
 };

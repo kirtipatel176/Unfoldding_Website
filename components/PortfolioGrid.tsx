@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { ArrowDown, MoveUpRight, ArrowUpRight } from 'lucide-react';
 
@@ -37,21 +39,21 @@ const PortfolioGrid: React.FC = () => {
       `}</style>
 
       {/* Full width grid container with 1px gap for borders */}
-      <div className="w-full grid grid-cols-1 md:grid-cols-4 auto-rows-[350px] gap-[1px] bg-brand-green/20 border-b border-brand-green/20">
+      <div className="w-full grid grid-cols-1 md:grid-cols-4 auto-rows-[200px] sm:auto-rows-[280px] md:auto-rows-[350px] gap-[1px] bg-brand-green/20 border-b border-brand-green/20">
 
         {/* 1. Elysium (Tall Left) - Col 1, Row 1-2 */}
         <div className="md:col-span-1 md:row-span-2 relative group overflow-hidden bg-gray-200 cursor-pointer">
           {/* Placeholder: Elysium */}
-          <div className="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500 font-sans tracking-widest text-sm group-hover:bg-gray-400 transition-colors duration-1000">IMAGE: ELYSIUM</div>
+          <div className="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500 font-sans tracking-widest text-xs sm:text-sm group-hover:bg-gray-400 transition-colors duration-1000">IMAGE: ELYSIUM</div>
           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-          <div className="absolute bottom-8 left-8 text-white z-10">
+          <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 sm:left-6 md:left-8 text-white z-10">
             <div className="overflow-hidden mb-2">
-              <h4 className="font-serif italic text-sm opacity-90 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">Real Estate</h4>
+              <h4 className="font-serif italic text-xs sm:text-sm opacity-90 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">Real Estate</h4>
             </div>
-            <h3 className="font-display text-3xl tracking-widest leading-none">ELYSIUM</h3>
+            <h3 className="font-display text-xl sm:text-2xl md:text-3xl tracking-widest leading-none">ELYSIUM</h3>
           </div>
-          <div className="absolute top-6 right-6 w-10 h-10 border border-white/30 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <MoveUpRight className="w-5 h-5" />
+          <div className="absolute top-4 sm:top-6 right-4 sm:right-6 w-8 h-8 sm:w-10 sm:h-10 border border-white/30 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <MoveUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
         </div>
 
