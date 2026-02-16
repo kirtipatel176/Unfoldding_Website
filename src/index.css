@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Colors */
+  --color-brand-cream: #F2F0E9;
+  --color-brand-green: #0B4634;
+  --color-brand-gold: #C19B5F;
+  --color-brand-brown: #4A3B2A;
+  --color-brand-dark: #1a1a1a;
+
+  /* Font Families */
+  --font-family-serif: "Playfair Display", serif;
+  --font-family-display: "Cinzel", serif;
+  --font-family-sans: "Lato", sans-serif;
+}
+
+/* Custom scrollbar to match aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F2F0E9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0B4634;
+}
+
+.text-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
