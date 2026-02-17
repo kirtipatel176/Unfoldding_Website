@@ -43,7 +43,7 @@ const Contact: React.FC = () => {
               <div />
 
               <div className="flex items-center justify-start">
-                <div className="w-[140%] -translate-x-[40%] -translate-y-[32px] relative h-[150px] md:h-[250px] lg:h-[350px]">
+                <div className="w-[140%] -translate-x-[40%] translate-y-[-8px] md:translate-y-[-32px] relative h-[160px] md:h-[260px] lg:h-[360px]">
                   <Image
                     src="/images/f-2.png"
                     alt="Right Figure"
@@ -52,6 +52,9 @@ const Contact: React.FC = () => {
                   />
                 </div>
               </div>
+
+
+
 
             </div>
           </div>
