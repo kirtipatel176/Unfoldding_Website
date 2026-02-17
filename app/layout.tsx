@@ -7,13 +7,18 @@ export const metadata: Metadata = {
     title: 'UNFOLDDING - Brand & Design Consultancy',
     description: 'An independent brand and design consultancy turning complexity into clarity — crafting brands that think deeply, feel human, and unfoldding with purpose.',
     keywords: ['brand strategy', 'design consultancy', 'creative agency', 'brand identity', 'design services'],
+    icons: {
+        icon: '/images/logo.png',
+        shortcut: '/images/logo.png',
+        apple: '/images/logo.png',
+    },
 };
 
 export default function RootLayout({
     children,
-}: {
+}: Readonly<{
     children: React.ReactNode;
-}) {
+}>) {
     return (
         <html lang="en">
             <head>
