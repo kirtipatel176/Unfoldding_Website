@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Volume2, VolumeX, Menu } from 'lucide-react';
 
 const Navbar: React.FC = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true); // Music ON by default
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
