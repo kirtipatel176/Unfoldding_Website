@@ -1,8 +1,8 @@
-import Hero from '@/components/Hero';
-import Commandments from '@/components/Commandments';
-import PortfolioGrid from '@/components/PortfolioGrid';
-import Clients from '@/components/Clients';
-import Contact from '@/components/Contact';
+import Hero from '@/components/sections/Hero';
+import Commandments from '@/components/sections/Commandments';
+import PortfolioGrid from '@/components/sections/PortfolioGrid';
+import Clients from '@/components/sections/Clients';
+import Contact from '@/components/sections/Contact';
 
 export default function Home() {
     return (

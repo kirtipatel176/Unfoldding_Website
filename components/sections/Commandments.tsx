@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Commandment } from '../types';
+import { Commandment } from '@/types';
 
 const COMMANDMENTS_DATA: Commandment[] = [
   { id: 1, title: "THOU SHALT BEGIN WITH TRUTH", description: "For every brand story must rise from something real — a belief, not a briefing." },

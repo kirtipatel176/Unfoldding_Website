@@ -44,9 +44,9 @@ const Hero: React.FC = () => {
           </div>
 
           {/* Central Image - Hero Horse */}
-          <div className="relative z-[5] w-[250px] h-[250px] md:w-[450px] md:h-[450px] mx-auto transform scale-x-[-1]">
+          <div className="relative z-[5] w-[250px] h-[250px] md:w-[450px] md:h-[450px] mx-auto transform ">
             <Image
-              src="/images/hero_horse.avif"
+              src="/images/hero_horse.png"
               alt="Hero Horse"
               fill
               className="object-contain"
