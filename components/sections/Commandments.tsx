@@ -55,7 +55,7 @@ const Commandments: React.FC = () => {
         {/* Quote Section */}
         <div className="w-full bg-[#2F6B3E] px-8 pt-8 pb-6 z-30 relative shadow-[0_-10px_20px_rgba(0,0,0,0.1)] rounded-t-[30px] mt-[-20px]">
           <p className="font-serif italic text-white/90 text-center text-base leading-relaxed">
-            "For what is a campaign if not a vessel<br />without soul?"
+            &ldquo;For what is a campaign if not a vessel<br />without soul?&rdquo;
           </p>
         </div>
 

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { Volume2, VolumeX, Menu } from 'lucide-react';
 
 const Navbar: React.FC = () => {
@@ -42,10 +43,13 @@ const Navbar: React.FC = () => {
         </button>
 
         <div className="flex items-center">
-          <img
+          <Image
             src="/images/logo.png"
             alt="UNFOLDDING Logo"
+            width={120}
+            height={120}
             className="h-30 w-auto"
+            priority
           />
         </div>
 

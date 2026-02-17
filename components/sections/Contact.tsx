@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 
 const Contact: React.FC = () => {
   return (
@@ -29,11 +30,12 @@ const Contact: React.FC = () => {
             <div className="grid grid-cols-3 w-full h-full">
 
               <div className="flex items-center justify-end">
-                <div className="w-[140%] translate-x-[40%]">
-                  <img
+                <div className="w-[140%] translate-x-[40%] relative h-[150px] md:h-[250px] lg:h-[350px]">
+                  <Image
                     src="/images/f-1.png"
                     alt="Left Figure"
-                    className="w-full h-auto object-contain"
+                    fill
+                    className="object-contain"
                   />
                 </div>
               </div>
@@ -41,11 +43,12 @@ const Contact: React.FC = () => {
               <div />
 
               <div className="flex items-center justify-start">
-                <div className="w-[140%] -translate-x-[40%] -translate-y-[32px]">
-                  <img
+                <div className="w-[140%] -translate-x-[40%] -translate-y-[32px] relative h-[150px] md:h-[250px] lg:h-[350px]">
+                  <Image
                     src="/images/f-2.png"
                     alt="Right Figure"
-                    className="w-full h-auto object-contain"
+                    fill
+                    className="object-contain"
                   />
                 </div>
               </div>
