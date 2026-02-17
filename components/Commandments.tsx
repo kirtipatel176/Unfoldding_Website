@@ -19,60 +19,109 @@ const COMMANDMENTS_DATA: Commandment[] = [
 
 const Commandments: React.FC = () => {
   return (
-    <section className="w-full min-h-screen flex flex-col md:flex-row bg-white overflow-hidden relative mt-0 pt-0">
+    <section className="w-full relative bg-white overflow-hidden mt-0 pt-0">
 
-      {/* PROPHET IMAGE — CENTERED BETWEEN SECTIONS */}
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-20 w-[60%] md:w-[40%] h-full pointer-events-none">
-        <Image
-          src="/images/elderly-prophet-transparent.png"
-          alt="Elderly Prophet with Stone Tablets"
-          width={900}
-          height={1400}
-          priority
-          className="w-full h-auto object-contain object-bottom"
-        />
-      </div>
+      {/* ================= MOBILE VIEW (Visible < md) ================= */}
+      <div className="md:hidden w-full min-h-screen flex flex-col relative bg-[#2F6B3E]">
 
-      {/* LEFT PANEL */}
-      <div className="relative w-full md:w-[50%] bg-brand-cream min-h-[50vh] md:min-h-screen flex items-end overflow-hidden">
+        {/* Top Section: Cream Background, "10", Title, Image */}
+        <div className="relative w-full h-[45vh] bg-brand-cream flex flex-col items-center justify-center overflow-hidden shrink-0">
+          {/* Big 10 Watermark */}
+          <div className="absolute top-4 left-4 z-0">
+            <span className="font-serif text-[180px] text-[#A68A56] leading-none opacity-40 select-none">
+              10
+            </span>
+          </div>
 
-        {/* BIG 10 */}
-        <div className="absolute top-[8%] left-[-5%] z-10 select-none">
-          <span className="font-serif text-[160px] sm:text-[260px] md:text-[380px] lg:text-[460px] text-[#A68A56] leading-none opacity-50">
-            10
-          </span>
-        </div>
-
-        {/* VERTICAL COMMANDMENTS */}
-        <div className="absolute inset-y-0 left-[20%] flex items-center z-10 pointer-events-none">
-          <h2
-            className="font-display text-[60px] sm:text-[90px] md:text-[120px] lg:text-[140px] tracking-tight text-transparent"
-            style={{
-              writingMode: 'sideways-lr',
-              WebkitTextStroke: '1px #0B4634',
-            }}
-          >
+          {/* Title */}
+          <h2 className="absolute top-8 right-6 font-display text-[32px] text-[#0B4634] tracking-tight z-10 leading-[0.9] text-right">
             COMMANDMENTS
           </h2>
+
+          {/* Prophet Image */}
+          <div className="absolute bottom-0 right-[-10%] w-[80%] h-[85%] z-20">
+            <Image
+              src="/images/Elderly_prophet.png"
+              alt="Prophet"
+              fill
+              className="object-contain object-bottom"
+            />
+          </div>
         </div>
+
+        {/* Bottom Section: Scrollable Content List */}
+        <div className="flex-grow w-full bg-[#2F6B3E] px-6 py-8 z-30 relative shadow-[0_-10px_20px_rgba(0,0,0,0.1)] rounded-t-[30px] mt-[-20px]">
+          <div className="space-y-6 pb-20">
+            {COMMANDMENTS_DATA.map((cmd) => (
+              <div key={cmd.id} className="border-b border-white/10 pb-4 last:border-0 last:pb-0">
+                <h3 className="font-sans font-extrabold uppercase text-xs tracking-wide mb-1 text-[#A68A56]">
+                  {cmd.id}. {cmd.title}
+                </h3>
+                <p className="font-sans text-white/80 text-sm leading-relaxed">
+                  {cmd.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
 
-      {/* RIGHT PANEL */}
-      <div className="relative w-full md:w-[50%] bg-[#0B4634] text-white px-6 md:px-16 py-12 md:py-20 flex items-center">
+      {/* ================= DESKTOP VIEW (Visible >= md) ================= */}
+      <div className="hidden md:flex w-full min-h-screen flex-row bg-white relative">
 
-        <div className="space-y-6 md:space-y-8 max-w-3xl z-30">
-          {COMMANDMENTS_DATA.map((cmd) => (
-            <div key={cmd.id}>
-              <h3 className="font-sans font-extrabold uppercase text-sm md:text-lg tracking-wide mb-1 transition-colors hover:text-[#A68A56]">
-                {cmd.title}
-              </h3>
-              <p className="font-sans text-white/70 text-sm md:text-base leading-relaxed">
-                {cmd.description}
-              </p>
-            </div>
-          ))}
+        {/* PROPHET IMAGE — CENTERED BETWEEN SECTIONS */}
+        <div className="absolute top-0 left-[calc(50%-150px)] transform -translate-x-1/2 z-20 w-[10%] md:w-[40%] h-full pointer-events-none">
+          <Image
+            src="/images/Elderly_prophet.png"
+            alt="Prophet"
+            width={400}
+            height={600}
+            className="object-contain"
+          />
         </div>
 
+        {/* LEFT PANEL */}
+        <div className="relative w-full md:w-[30%] bg-brand-cream min-h-[50vh] md:min-h-screen flex items-end overflow-hidden">
+
+          {/* BIG 10 */}
+          <div className="absolute top-[5%] left-[5%] z-10 select-none">
+            <span className="font-serif text-[180px] sm:text-[260px] md:text-[380px] lg:text-[460px] text-[#A68A56] leading-none opacity-50">
+              10
+            </span>
+          </div>
+
+          {/* VERTICAL COMMANDMENTS */}
+          <div className="absolute inset-y-0 left-[20%] flex items-center z-10 pointer-events-none">
+            <h2
+              className="font-display text-[60px] sm:text-[90px] md:text-[120px] lg:text-[140px] tracking-tight text-transparent"
+              style={{
+                writingMode: 'sideways-lr',
+                WebkitTextStroke: '1px #0B4634',
+              }}
+            >
+              COMMANDMENTS
+            </h2>
+          </div>
+        </div>
+
+        {/* RIGHT PANEL */}
+        <div className="relative w-full md:w-[70%] bg-[#2F6B3E] text-white px-6 md:px-16 py-12 md:py-20 flex items-center">
+
+          <div className="space-y-6 md:space-y-8 max-w-3xl z-30 md:pl-48">
+            {COMMANDMENTS_DATA.map((cmd) => (
+              <div key={cmd.id}>
+                <h3 className="font-sans font-extrabold uppercase text-sm md:text-lg tracking-wide mb-1 transition-colors hover:text-[#A68A56]">
+                  {cmd.title}
+                </h3>
+                <p className="font-sans text-white/70 text-sm md:text-base leading-relaxed">
+                  {cmd.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+        </div>
       </div>
     </section>
   );
