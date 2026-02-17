@@ -1,14 +1,10 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
+
 
 const Clients: React.FC = () => {
-  const clients = [
-    { name: 'Tata Motors', logo: 'TATA MOTORS' },
-    { name: 'Borzo', logo: 'BORZO' },
-    { name: 'Pan Parag', logo: 'PAN PARAG' },
-  ];
+
 
   return (
     <section
