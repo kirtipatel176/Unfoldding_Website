@@ -1,10 +1,38 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Volume2, VolumeX, Menu } from 'lucide-react';
 
 const Navbar: React.FC = () => {
-  const [isMuted, setIsMuted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Attempt to play on mount (autoplay)
+    const playAudio = async () => {
+      if (audioRef.current) {
+        try {
+          await audioRef.current.play();
+          setIsPlaying(true);
+        } catch (err) {
+          console.log('Autoplay blocked, waiting for user interaction', err);
+          setIsPlaying(false);
+        }
+      }
+    };
+    playAudio();
+  }, []);
+
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-brand-cream/90 backdrop-blur-sm border-b border-brand-green/10 transition-all duration-300">
@@ -22,11 +50,17 @@ const Navbar: React.FC = () => {
         </div>
 
         <button
-          onClick={() => setIsMuted(!isMuted)}
+          onClick={togglePlay}
           className="p-2 hover:opacity-70 transition-opacity text-brand-green"
+          aria-label={isPlaying ? "Mute background music" : "Play background music"}
         >
-          {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+          {isPlaying ? <Volume2 className="w-6 h-6" /> : <VolumeX className="w-6 h-6" />}
         </button>
+        <audio
+          ref={audioRef}
+          src="/music/universfield-calm-flute-for-documentaries-351909.mp3"
+          loop
+        />
       </div>
     </header>
   );

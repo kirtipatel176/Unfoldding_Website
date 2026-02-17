@@ -94,6 +94,16 @@ const Contact: React.FC = () => {
 
         </div>
 
+        {/* Submit Button */}
+        <div className="relative z-30 mt-8 md:mt-12 flex justify-center md:justify-end">
+          <button
+            type="submit"
+            className="bg-white text-[#2F6B3E] px-12 py-3 font-serif text-lg tracking-wide hover:bg-white/90 transition-all duration-300 uppercase"
+          >
+            Submit
+          </button>
+        </div>
+
       </div>
     </section>
   );

@@ -22,7 +22,7 @@ const Commandments: React.FC = () => {
     <section className="w-full relative bg-white overflow-hidden mt-0 pt-0">
 
       {/* ================= MOBILE VIEW (Visible < md) ================= */}
-      <div className="md:hidden w-full min-h-screen flex flex-col relative bg-[#2F6B3E]">
+      <div className="md:hidden w-full min-h-screen flex flex-col relative">
 
         {/* Top Section: Cream Background, "10", Title, Image */}
         <div className="relative w-full h-[45vh] bg-brand-cream flex flex-col items-center justify-center overflow-hidden shrink-0">
@@ -33,13 +33,16 @@ const Commandments: React.FC = () => {
             </span>
           </div>
 
-          {/* Title */}
-          <h2 className="absolute top-8 right-6 font-display text-[32px] text-[#0B4634] tracking-tight z-10 leading-[0.9] text-right">
-            COMMANDMENTS
+          {/* Title - Vertical */}
+          <h2
+            className="absolute top-12 right-8 font-display text-[28px] text-[#0B4634] tracking-tight z-10 leading-[1.1]"
+            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+          >
+            Commandments
           </h2>
 
           {/* Prophet Image */}
-          <div className="absolute bottom-0 right-[-10%] w-[80%] h-[85%] z-20">
+          <div className="absolute bottom-0 left-0 w-full h-[85%] z-20">
             <Image
               src="/images/Elderly_prophet.png"
               alt="Prophet"
@@ -49,19 +52,39 @@ const Commandments: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Section: Scrollable Content List */}
-        <div className="flex-grow w-full bg-[#2F6B3E] px-6 py-8 z-30 relative shadow-[0_-10px_20px_rgba(0,0,0,0.1)] rounded-t-[30px] mt-[-20px]">
+        {/* Quote Section */}
+        <div className="w-full bg-[#2F6B3E] px-8 pt-8 pb-6 z-30 relative shadow-[0_-10px_20px_rgba(0,0,0,0.1)] rounded-t-[30px] mt-[-20px]">
+          <p className="font-serif italic text-white/90 text-center text-base leading-relaxed">
+            "For what is a campaign if not a vessel<br />without soul?"
+          </p>
+        </div>
+
+        {/* Commandments List Section */}
+        <div className="flex-grow w-full bg-[#2F6B3E] px-6 pb-8">
           <div className="space-y-6 pb-20">
-            {COMMANDMENTS_DATA.map((cmd) => (
-              <div key={cmd.id} className="border-b border-white/10 pb-4 last:border-0 last:pb-0">
-                <h3 className="font-sans font-extrabold uppercase text-xs tracking-wide mb-1 text-[#A68A56]">
-                  {cmd.id}. {cmd.title}
-                </h3>
-                <p className="font-sans text-white/80 text-sm leading-relaxed">
-                  {cmd.description}
-                </p>
-              </div>
-            ))}
+            {COMMANDMENTS_DATA.map((cmd, index) => {
+
+              // Extract title without "THOU SHALT" prefix for cleaner display
+              const cleanTitle = cmd.title.replace('THOU SHALT ', '');
+
+              return (
+                <div key={cmd.id} className="border-b border-white/10 pb-4 last:border-0 last:pb-0">
+                  <div className="flex items-start gap-3">
+                    <span className="font-serif text-[#C5A572] text-lg shrink-0 mt-0.5">
+                      {index + 1}.
+                    </span>
+                    <div className="flex-1">
+                      <h3 className="font-sans font-bold uppercase text-xs tracking-wide mb-1 text-white">
+                        {cleanTitle}
+                      </h3>
+                      <p className="font-sans text-white/70 text-sm leading-relaxed">
+                        {cmd.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
