@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
+
 
 const Hero: React.FC = () => {
   return (
@@ -24,15 +24,16 @@ const Hero: React.FC = () => {
 
         {/* Image & Floating Words Container */}
         <div className="relative w-full max-w-[350px] md:max-w-[500px] h-[350px] md:h-[500px] my-4 md:my-8">
-          {/* Main Image */}
+          {/* Main Video */}
           <div className="absolute inset-0 z-10 flex items-center justify-center">
-            <Image
-              src="/images/hero_horse.png"
-              alt="Hero Horse"
-              width={600}
-              height={600}
-              className="object-contain w-full h-full"
-              priority
+            <video
+              src="/videos/horse_hero.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="object-contain w-full h-full scale-[1.35] md:scale-150 mix-blend-darken"
+              style={{ filter: 'brightness(1.1) contrast(1.1)' }}
             />
           </div>
 
@@ -126,14 +127,16 @@ const Hero: React.FC = () => {
               </h1>
             </div>
 
-            {/* Central Image - Hero Horse */}
-            <div className="relative z-[5] w-[300px] h-[300px] lg:w-[350px] lg:h-[350px] xl:w-[450px] xl:h-[450px] mx-auto transform ">
-              <Image
-                src="/images/hero_horse.png"
-                alt="Hero Horse"
-                fill
-                className="object-contain"
-                priority
+            {/* Central Video - Hero Horse */}
+            <div className="relative z-[5] w-[300px] h-[300px] lg:w-[350px] lg:h-[350px] xl:w-[450px] xl:h-[450px] mx-auto transform">
+              <video
+                src="/images/horse_hero.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="object-contain w-full h-full scale-[1.35] xl:scale-150 mix-blend-darken"
+                style={{ filter: 'brightness(1.1) contrast(1.1)' }}
               />
             </div>
 

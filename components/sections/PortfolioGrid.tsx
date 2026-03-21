@@ -1,7 +1,123 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { ArrowDown, MoveUpRight, ArrowUpRight } from 'lucide-react';
+
+const ProcessDaVinci = ({ className = "" }: { className?: string }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const leftEyeRef = useRef<HTMLDivElement>(null);
+  const rightEyeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let animationFrameId: number | null = null;
+    let mouseX = 0;
+    let mouseY = 0;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (!animationFrameId) {
+        animationFrameId = requestAnimationFrame(updateEyes);
+      }
+    };
+
+    const handleMouseLeave = () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+      const leftPupil = leftEyeRef.current?.firstElementChild as HTMLElement;
+      const rightPupil = rightEyeRef.current?.firstElementChild as HTMLElement;
+      if (leftPupil) leftPupil.style.transform = `translate(0px, 0px)`;
+      if (rightPupil) rightPupil.style.transform = `translate(0px, 0px)`;
+    };
+
+    const updateEyes = () => {
+      const maxMove = 5; // Maximum pixel movement for pupil
+
+      const updateEye = (eye: HTMLDivElement | null) => {
+        if (!eye) return;
+        const pupil = eye.firstElementChild as HTMLElement;
+        if (!pupil) return;
+
+        const rect = eye.getBoundingClientRect();
+        const eyeCenterX = rect.left + rect.width / 2;
+        const eyeCenterY = rect.top + rect.height / 2;
+
+        const deltaX = mouseX - eyeCenterX;
+        const deltaY = mouseY - eyeCenterY;
+        const angle = Math.atan2(deltaY, deltaX);
+
+        // Distance capped to maxMove
+        const distance = Math.min(Math.hypot(deltaX, deltaY) / 10, maxMove);
+
+        const pupilX = Math.cos(angle) * distance;
+        const pupilY = Math.sin(angle) * distance;
+
+        pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
+      };
+
+      updateEye(leftEyeRef.current);
+      updateEye(rightEyeRef.current);
+
+      animationFrameId = null;
+    };
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('mousemove', handleMouseMove);
+      container.addEventListener('mouseleave', handleMouseLeave);
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('mousemove', handleMouseMove);
+        container.removeEventListener('mouseleave', handleMouseLeave);
+      }
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <div ref={containerRef} className={`relative bg-transparent group overflow-hidden cursor-pointer ${className}`}>
+      <Image
+        src="/images/Davinci.jpg.jpeg"
+        alt="Process"
+        fill
+        className="object-cover transition-transform duration-500"
+      />
+
+      {/* Left Eye wrapper */}
+      <div
+        ref={leftEyeRef}
+        className="absolute w-8 h-8 -ml-4 -mt-4 z-10 flex items-center justify-center"
+        style={{ top: '16%', left: '55.5%' }}
+      >
+        <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#111] transition-transform duration-100 ease-out" />
+      </div>
+
+      {/* Right Eye wrapper */}
+      <div
+        ref={rightEyeRef}
+        className="absolute w-8 h-8 -ml-4 -mt-4 z-10 flex items-center justify-center"
+        style={{ top: '16%', left: '67.6%' }}
+      >
+        <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#111] transition-transform duration-100 ease-out" />
+      </div>
+
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 border border-white/5 m-4 transition-all duration-500 group-hover:border-brand-gold/50 z-20">
+        <div className="w-14 h-14 rounded-full border border-white/20 text-brand-gold flex items-center justify-center mb-4 group-hover:scale-110 transition-transform bg-black/40 backdrop-blur-[2px]">
+          <ArrowUpRight className="w-6 h-6" />
+        </div>
+        <h3 className="font-display text-white text-2xl tracking-[0.25em] drop-shadow-lg">PROCESS</h3>
+        <p className="text-white text-[10px] font-bold mt-3 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 drop-shadow-md">
+          Discover • Define • Design
+        </p>
+      </div>
+    </div>
+  );
+};
 
 const PortfolioGrid: React.FC = () => {
   const services = [
@@ -143,17 +259,7 @@ const PortfolioGrid: React.FC = () => {
         </div>
 
         {/* 6. Process - Full Width */}
-        <div className="w-full h-[280px] relative bg-gray-900 group overflow-hidden cursor-pointer hover:bg-gray-800 transition-colors">
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 border border-white/5 m-4 transition-all duration-500 group-hover:border-brand-gold/50">
-            <div className="w-14 h-14 rounded-full border border-white/20 text-brand-gold flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-              <ArrowUpRight className="w-6 h-6" />
-            </div>
-            <h3 className="font-display text-white text-2xl tracking-[0.25em]">PROCESS</h3>
-            <p className="text-white/40 text-[10px] mt-3 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
-              Discover • Define • Design
-            </p>
-          </div>
-        </div>
+        <ProcessDaVinci className="w-full h-[280px]" />
 
         {/* 7. Grand Expedition - Full Width */}
         <div className="w-full h-[300px] relative bg-gray-100 overflow-hidden group cursor-pointer">
@@ -177,14 +283,13 @@ const PortfolioGrid: React.FC = () => {
         </div>
 
         {/* 9. Project 10 - Full Width */}
-        <div className="w-full h-[250px] relative bg-gray-500 overflow-hidden group cursor-pointer">
-          <div className="w-full h-full bg-gray-600 flex items-center justify-center text-gray-300 font-sans tracking-widest text-sm group-hover:bg-gray-500 transition-colors duration-700">
-            PROJECT 10
-          </div>
-          <div className="absolute bottom-6 left-6 z-10">
-            <h4 className="font-serif italic text-brand-gold text-sm mb-2 opacity-0 group-hover:opacity-100 transition-opacity">Branding</h4>
-            <h3 className="font-display text-white text-2xl tracking-widest">PROJECT 10</h3>
-          </div>
+        <div className="w-full h-[250px] relative bg-white overflow-hidden group cursor-pointer">
+          <Image
+            src="/images/Pied Piper.png"
+            alt="Pied Piper"
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-700"
+          />
         </div>
 
       </div>
@@ -298,17 +403,7 @@ const PortfolioGrid: React.FC = () => {
         </div>
 
         {/* 7. Process (Small) - Col 1, Row 3 */}
-        <div className="col-span-1 row-span-1 relative bg-gray-900 group overflow-hidden cursor-pointer hover:bg-gray-800 transition-colors">
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 border border-white/5 m-4 transition-all duration-500 group-hover:border-brand-gold/50">
-            <div className="w-14 h-14 rounded-full border border-white/20 text-brand-gold flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-              <ArrowUpRight className="w-6 h-6" />
-            </div>
-            <h3 className="font-display text-white text-2xl tracking-[0.25em]">PROCESS</h3>
-            <p className="text-white/40 text-[10px] mt-3 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
-              Discover • Define • Design
-            </p>
-          </div>
-        </div>
+        <ProcessDaVinci className="col-span-1 row-span-1" />
 
         {/* 8. Grand Expedition (Wide Bottom) - Col 2-3, Row 3 */}
         <div className="col-span-2 row-span-1 relative bg-gray-100 overflow-hidden group cursor-pointer">
@@ -334,14 +429,13 @@ const PortfolioGrid: React.FC = () => {
         </div>
 
         {/* 10. Project 10 - Wide Bottom Right - Row 4, Col 3-4 */}
-        <div className="col-span-2 row-span-1 relative bg-gray-500 overflow-hidden group cursor-pointer">
-          <div className="w-full h-full bg-gray-600 flex items-center justify-center text-gray-300 font-sans tracking-widest text-sm group-hover:bg-gray-500 transition-colors duration-700">
-            PROJECT 10
-          </div>
-          <div className="absolute bottom-8 left-8 z-10">
-            <h4 className="font-serif italic text-brand-gold text-sm mb-2 opacity-0 group-hover:opacity-100 transition-opacity">Branding</h4>
-            <h3 className="font-display text-white text-3xl tracking-widest">PROJECT 10</h3>
-          </div>
+        <div className="col-span-2 row-span-1 relative bg-white overflow-hidden group cursor-pointer">
+          <Image
+            src="/images/Pied Piper.png"
+            alt="Pied Piper"
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-700"
+          />
         </div>
 
       </div>

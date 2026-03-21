@@ -2,7 +2,7 @@
 
 @theme {
     /* Brand Colors */
-    --color-brand-cream: #F2F0E9;
+    --color-brand-cream: #FFFFFF;
     --color-brand-green: #0B4634;
     --color-brand-gold: #C19B5F;
     --color-brand-brown: #4A3B2A;
@@ -20,7 +20,7 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #F2F0E9;
+    background: #FFFFFF;
 }
 
 ::-webkit-scrollbar-thumb {
