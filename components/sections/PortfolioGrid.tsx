@@ -152,6 +152,13 @@ const PortfolioGrid: React.FC = () => {
         .animate-scroll-vertical:hover {
           animation-play-state: paused;
         }
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-15px); }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
       `}</style>
 
       {/* MOBILE VIEW - Single Column  Stacked Design (< md) */}
@@ -231,29 +238,22 @@ const PortfolioGrid: React.FC = () => {
           </div>
         </div>
 
-        {/* 5. Services - Full Width with Scrolling */}
-        <div className="w-full h-[400px] relative bg-brand-cream group overflow-hidden flex flex-col">
-          <div className="relative z-20 py-8 text-center bg-brand-cream shadow-sm">
-            <h3 className="font-serif italic text-3xl text-brand-green">OUR</h3>
-            <h3 className="font-display text-2xl text-brand-green tracking-widest">SERVICES</h3>
+        {/* 5. Services - Full Width with Floating Hanuman */}
+        <div className="w-full h-[450px] relative bg-[#D4B37F] group overflow-hidden flex flex-col justify-start items-center pt-8 pb-8 cursor-pointer border-t border-brand-green/20">
+          <div className="absolute inset-[-10%] z-0 pointer-events-none animate-float">
+            <Image
+              src="/images/hanuman.jpeg"
+              alt="Our Services"
+              fill
+              className="object-cover object-top"
+            />
           </div>
-          <div className="relative flex-1 overflow-hidden bg-brand-cream">
-            <div className="animate-scroll-vertical w-full flex flex-col items-center gap-5 py-4">
-              {[...services, ...services].map((service, i) => (
-                <div key={i} className="flex flex-col items-center group/text">
-                  <span className="text-sm font-sans font-bold text-brand-green/40 uppercase tracking-widest group-hover/text:text-brand-gold transition-colors cursor-pointer">
-                    {service}
-                  </span>
-                  <span className="w-1 h-1 bg-brand-green/20 rounded-full mt-5"></span>
-                </div>
-              ))}
-            </div>
-            <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-brand-cream to-transparent z-10 pointer-events-none"></div>
-            <div className="absolute bottom-16 left-0 w-full h-24 bg-gradient-to-t from-brand-cream to-transparent z-10 pointer-events-none"></div>
-          </div>
-          <div className="absolute bottom-0 w-full p-4 bg-brand-cream flex justify-center z-20">
-            <div className="w-10 h-10 rounded-full border border-brand-green/20 text-brand-green flex items-center justify-center group-hover:bg-brand-green group-hover:text-brand-cream transition-colors cursor-pointer">
-              <ArrowDown className="w-5 h-5" />
+
+          <div className="relative z-20 text-center mt-2">
+            <h3 className="font-serif italic text-4xl text-[#0B4634] drop-shadow-md leading-none">OUR</h3>
+            <h3 className="font-display text-4xl text-[#0B4634] tracking-widest drop-shadow-md leading-none">SERVICES</h3>
+            <div className="w-12 h-12 mt-6 mx-auto rounded-full bg-[#907851] text-white flex items-center justify-center hover:bg-[#0B4634] transition-colors shadow-lg">
+              <ArrowDown className="w-6 h-6" />
             </div>
           </div>
         </div>
@@ -376,28 +376,21 @@ const PortfolioGrid: React.FC = () => {
         </div>
 
         {/* 6. Services (Tall Right) - Col 4, Row 2-3 */}
-        <div className="col-span-1 row-span-2 relative bg-brand-cream group overflow-hidden flex flex-col border-l border-brand-green/10">
-          <div className="relative z-20 py-8 text-center bg-brand-cream shadow-sm z-10">
-            <h3 className="font-serif italic text-3xl text-brand-green">OUR</h3>
-            <h3 className="font-display text-2xl text-brand-green tracking-widest">SERVICES</h3>
+        <div className="col-span-1 row-span-2 relative bg-[#D4B37F] group overflow-hidden flex flex-col border-l border-brand-green/10 justify-start items-center pt-10 pb-8 cursor-pointer">
+          <div className="absolute inset-[-10%] z-0 pointer-events-none animate-float">
+            <Image
+              src="/images/hanuman.jpeg"
+              alt="Our Services"
+              fill
+              className="object-cover object-top"
+            />
           </div>
-          <div className="relative flex-1 overflow-hidden bg-brand-cream">
-            <div className="animate-scroll-vertical w-full flex flex-col items-center gap-5 py-4">
-              {[...services, ...services].map((service, i) => (
-                <div key={i} className="flex flex-col items-center group/text">
-                  <span className="text-sm font-sans font-bold text-brand-green/40 uppercase tracking-widest group-hover/text:text-brand-gold transition-colors cursor-pointer">
-                    {service}
-                  </span>
-                  <span className="w-1 h-1 bg-brand-green/20 rounded-full mt-5"></span>
-                </div>
-              ))}
-            </div>
-            <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-brand-cream to-transparent z-10 pointer-events-none"></div>
-            <div className="absolute bottom-16 left-0 w-full h-24 bg-gradient-to-t from-brand-cream to-transparent z-10 pointer-events-none"></div>
-          </div>
-          <div className="absolute bottom-0 w-full p-4 bg-brand-cream flex justify-center z-20">
-            <div className="w-10 h-10 rounded-full border border-brand-green/20 text-brand-green flex items-center justify-center group-hover:bg-brand-green group-hover:text-brand-cream transition-colors cursor-pointer">
-              <ArrowDown className="w-5 h-5" />
+
+          <div className="relative z-20 text-center">
+            <h3 className="font-serif italic text-4xl xl:text-5xl text-[#0B4634] drop-shadow-md leading-none">OUR</h3>
+            <h3 className="font-display text-3xl xl:text-4xl text-[#0B4634] tracking-widest drop-shadow-md leading-none">SERVICES</h3>
+            <div className="w-12 h-12 mt-8 mx-auto rounded-full bg-[#907851] text-white flex items-center justify-center group-hover:bg-[#0B4634] transition-colors shadow-lg">
+              <ArrowDown className="w-6 h-6" />
             </div>
           </div>
         </div>

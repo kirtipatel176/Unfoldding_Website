@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { Commandment } from '@/types';
 
 const COMMANDMENTS_DATA: Commandment[] = [
@@ -17,6 +18,24 @@ const COMMANDMENTS_DATA: Commandment[] = [
   { id: 10, title: "THOU SHALT LET THE STORY UNFOLD — PATIENTLY, PURPOSEFULLY, HUMANLY", description: "For meaning, like design, reveals itself only to those who wait and listen." },
 ];
 
+const TypewriterText = ({ text }: { text: string }) => {
+  return (
+    <>
+      {text.split('').map((char, index) => (
+        <motion.span
+          key={`${char}-${index}`}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1 },
+          }}
+        >
+          {char}
+        </motion.span>
+      ))}
+    </>
+  );
+};
+
 const Commandments: React.FC = () => {
   return (
     <section className="w-full relative bg-white overflow-hidden mt-0 pt-0">
@@ -28,17 +47,17 @@ const Commandments: React.FC = () => {
         <div className="relative w-full h-[45vh] bg-brand-cream flex flex-col items-center justify-center overflow-hidden shrink-0">
           {/* Big 10 Watermark */}
           <div className="absolute top-4 left-4 z-0">
-            <span className="font-serif text-[180px] text-[#A68A56] leading-none opacity-40 select-none">
+            <span className="font-serif text-[180px] text-[#A68A56] leading-none select-none opacity-100">
               10
             </span>
           </div>
 
           {/* Title - Vertical */}
           <h2
-            className="absolute top-12 right-8 font-display text-[28px] text-[#0B4634] tracking-tight z-10 leading-[1.1]"
+            className="absolute top-12 right-8 font-display text-[28px] text-[#0B4634] tracking-tight z-10 leading-[1.1] uppercase"
             style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
           >
-            Commandments
+            <span className="font-burgues text-[30px] inline-block -rotate-90">C</span>OMMANDMENTS
           </h2>
 
           {/* Prophet Image */}
@@ -68,21 +87,31 @@ const Commandments: React.FC = () => {
               const cleanTitle = cmd.title.replace('THOU SHALT ', '');
 
               return (
-                <div key={cmd.id} className="border-b border-white/10 pb-4 last:border-0 last:pb-0">
+                <motion.div
+                  key={cmd.id}
+                  className="border-b border-white/10 pb-4 last:border-0 last:pb-0"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-10%" }}
+                  variants={{
+                    visible: { transition: { staggerChildren: 0.015 } },
+                    hidden: {}
+                  }}
+                >
                   <div className="flex items-start gap-3">
                     <span className="font-serif text-[#C5A572] text-lg shrink-0 mt-0.5">
                       {index + 1}.
                     </span>
                     <div className="flex-1">
                       <h3 className="font-sans font-bold uppercase text-xs tracking-wide mb-1 text-white">
-                        {cleanTitle}
+                        <TypewriterText text={cleanTitle} />
                       </h3>
                       <p className="font-sans text-white/70 text-sm leading-relaxed">
-                        {cmd.description}
+                        <TypewriterText text={cmd.description} />
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -109,7 +138,7 @@ const Commandments: React.FC = () => {
 
           {/* BIG 10 */}
           <div className="absolute top-[5%] left-[5%] z-10 select-none">
-            <span className="font-serif text-[180px] sm:text-[260px] md:text-[380px] lg:text-[460px] text-[#A68A56] leading-none opacity-50">
+            <span className="font-serif text-[180px] sm:text-[260px] md:text-[380px] lg:text-[460px] text-[#A68A56] leading-none opacity-100">
               10
             </span>
           </div>
@@ -117,13 +146,12 @@ const Commandments: React.FC = () => {
           {/* VERTICAL COMMANDMENTS */}
           <div className="absolute inset-y-0 left-[20%] flex items-center z-10 pointer-events-none">
             <h2
-              className="font-display text-[60px] sm:text-[90px] md:text-[120px] lg:text-[140px] tracking-tight text-transparent"
+              className="font-display text-[60px] sm:text-[90px] md:text-[120px] lg:text-[140px] tracking-tight text-[#0B4634] uppercase"
               style={{
                 writingMode: 'sideways-lr',
-                WebkitTextStroke: '1px #0B4634',
               }}
             >
-              COMMANDMENTS
+              <span className="font-burgues text-[70px] sm:text-[110px] md:text-[150px] lg:text-[180px] mr-2">C</span>OMMANDMENTS
             </h2>
           </div>
         </div>
@@ -133,14 +161,23 @@ const Commandments: React.FC = () => {
 
           <div className="space-y-6 md:space-y-8 max-w-3xl z-30 md:pl-48">
             {COMMANDMENTS_DATA.map((cmd) => (
-              <div key={cmd.id}>
+              <motion.div
+                key={cmd.id}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-10%" }}
+                variants={{
+                  visible: { transition: { staggerChildren: 0.015 } },
+                  hidden: {}
+                }}
+              >
                 <h3 className="font-sans font-extrabold uppercase text-sm md:text-lg tracking-wide mb-1 transition-colors hover:text-[#A68A56]">
-                  {cmd.title}
+                  <TypewriterText text={cmd.title} />
                 </h3>
                 <p className="font-sans text-white/70 text-sm md:text-base leading-relaxed">
-                  {cmd.description}
+                  <TypewriterText text={cmd.description} />
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
