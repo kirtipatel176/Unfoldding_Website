@@ -168,15 +168,18 @@ const Hero: React.FC = () => {
             <h1 className="font-serif text-4xl md:text-6xl text-[#B8956A] uppercase">
               CREATIVE
             </h1>
-            <h1 className="font-serif italic text-4xl md:text-6xl text-[#B8956A]">
-              STRATEGIES
-            </h1>
+            <div className="flex flex-row justify-center items-baseline">
+              <h1 className="text-[#B8956A] flex items-baseline">
+                <span className="font-burgues text-7xl md:text-8xl relative top-2 mr-1">S</span>
+                <span className="font-serif italic text-4xl md:text-6xl uppercase">TRATEGIES</span>
+              </h1>
+            </div>
           </div>
 
           {/* Subtitle */}
-          <div className="max-w-[320px] md:max-w-[500px] text-center mb-10 z-10">
+          <div className="max-w-[320px] md:max-w-[500px] text-center mb-10 z-10 ml-[20px]">
             <p className="font-sans text-gray-600 text-sm md:text-lg leading-relaxed">
-              An independent brand and design consultancy turning complexity into clarity — crafting brands that think deeply, feel human, and <span className="italic">unfoldding</span> with purpose.
+              An independent brand and design consultancy turning complexity into clarity — crafting brands that think deeply, feel human, and <span className="italic">unfolding</span> with purpose.
             </p>
           </div>
 
@@ -259,9 +262,9 @@ const Hero: React.FC = () => {
 
                 <div className="flex flex-col items-end gap-12 xl:gap-20 mb-[2vh]">
                   {/* Subtitle */}
-                  <div className="max-w-[200px] lg:max-w-[250px] xl:max-w-[320px] text-right transform -translate-x-[170px] -translate-y-[120px]">
+                  <div className="max-w-[200px] lg:max-w-[250px] xl:max-w-[320px] text-right transform -translate-x-[150px] -translate-y-[45px]">
                     <p className="font-sans text-[#B8956A] text-xs lg:text-base xl:text-lg leading-relaxed">
-                      An independent brand and design consultancy turning complexity into clarity — crafting brands that think deeply, feel human, and <span className="italic">unfoldding</span> with purpose.
+                      An independent brand and design consultancy turning complexity into clarity — crafting brands that think deeply, feel human, and <span className="italic">unfolding</span> with purpose.
                     </p>
                   </div>
 

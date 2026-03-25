@@ -107,8 +107,8 @@ const ProcessDaVinci = ({ className = "" }: { className?: string }) => {
       {/* Left Eye wrapper */}
       <div
         ref={leftEyeRef}
-        className="absolute w-8 h-8 -ml-4 -mt-[30px] md:-mt-4 z-10 flex items-center justify-center"
-        style={{ top: '16%', left: '55.5%' }}
+        className="absolute w-8 h-8 -ml-4 -mt-[38px] md:-mt-4 z-10 flex items-center justify-center"
+        style={{ top: '18%', left: '55.5%' }}
       >
         <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#111] transition-transform duration-100 ease-out" />
       </div>
@@ -116,8 +116,8 @@ const ProcessDaVinci = ({ className = "" }: { className?: string }) => {
       {/* Right Eye wrapper */}
       <div
         ref={rightEyeRef}
-        className="absolute w-8 h-8 -ml-4 -mt-[30px] md:-mt-4 z-10 flex items-center justify-center"
-        style={{ top: '16%', left: '67.6%' }}
+        className="absolute w-8 h-8 -ml-4 -mt-[38px] md:-mt-4 z-10 flex items-center justify-center"
+        style={{ top: '18%', left: '67.6%' }}
       >
         <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#111] transition-transform duration-100 ease-out" />
       </div>
