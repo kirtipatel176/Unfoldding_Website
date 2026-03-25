@@ -136,12 +136,7 @@ const ProcessDaVinci = ({ className = "" }: { className?: string }) => {
 };
 
 const PortfolioGrid: React.FC = () => {
-  const services = [
-    "Brand Strategy", "Visual Identity", "Packaging Design", "Art Direction",
-    "Web Development", "Motion Graphics", "Copywriting", "Social Media",
-    "Campaign Strategy", "Print Design", "Environmental Design", "Naming",
-    "Consultancy", "UI/UX Design", "Content Creation"
-  ];
+
 
   const insideUpdates = [
     "Latest: Studio won 'Agency of Year'",
