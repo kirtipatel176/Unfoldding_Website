@@ -11,18 +11,24 @@ const ProcessDaVinci = ({ className = "" }: { className?: string }) => {
 
   useEffect(() => {
     let animationFrameId: number | null = null;
-    let mouseX = 0;
-    let mouseY = 0;
+    let clientX = 0;
+    let clientY = 0;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+    const handleMove = (e: MouseEvent | TouchEvent) => {
+      if ('touches' in e && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else if ('clientX' in e) {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+
       if (!animationFrameId) {
         animationFrameId = requestAnimationFrame(updateEyes);
       }
     };
 
-    const handleMouseLeave = () => {
+    const handleLeave = () => {
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
         animationFrameId = null;
@@ -45,8 +51,8 @@ const ProcessDaVinci = ({ className = "" }: { className?: string }) => {
         const eyeCenterX = rect.left + rect.width / 2;
         const eyeCenterY = rect.top + rect.height / 2;
 
-        const deltaX = mouseX - eyeCenterX;
-        const deltaY = mouseY - eyeCenterY;
+        const deltaX = clientX - eyeCenterX;
+        const deltaY = clientY - eyeCenterY;
         const angle = Math.atan2(deltaY, deltaX);
 
         // Distance capped to maxMove
@@ -66,15 +72,25 @@ const ProcessDaVinci = ({ className = "" }: { className?: string }) => {
 
     const container = containerRef.current;
     if (container) {
-      container.addEventListener('mousemove', handleMouseMove);
-      container.addEventListener('mouseleave', handleMouseLeave);
+      // Desktop: Only track when hovering over the element
+      container.addEventListener('mousemove', handleMove as EventListener);
+      container.addEventListener('mouseleave', handleLeave as EventListener);
     }
+
+    // Mobile/Tablet: Track touch anywhere on the screen since there's no hover
+    globalThis.addEventListener('touchmove', handleMove as EventListener, { passive: true });
+    globalThis.addEventListener('touchstart', handleMove as EventListener, { passive: true });
+    globalThis.addEventListener('touchend', handleLeave as EventListener);
 
     return () => {
       if (container) {
-        container.removeEventListener('mousemove', handleMouseMove);
-        container.removeEventListener('mouseleave', handleMouseLeave);
+        container.removeEventListener('mousemove', handleMove as EventListener);
+        container.removeEventListener('mouseleave', handleLeave as EventListener);
       }
+      globalThis.removeEventListener('touchmove', handleMove as EventListener);
+      globalThis.removeEventListener('touchstart', handleMove as EventListener);
+      globalThis.removeEventListener('touchend', handleLeave as EventListener);
+
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -91,7 +107,7 @@ const ProcessDaVinci = ({ className = "" }: { className?: string }) => {
       {/* Left Eye wrapper */}
       <div
         ref={leftEyeRef}
-        className="absolute w-8 h-8 -ml-4 -mt-4 z-10 flex items-center justify-center"
+        className="absolute w-8 h-8 -ml-4 -mt-[30px] md:-mt-4 z-10 flex items-center justify-center"
         style={{ top: '16%', left: '55.5%' }}
       >
         <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#111] transition-transform duration-100 ease-out" />
@@ -100,18 +116,18 @@ const ProcessDaVinci = ({ className = "" }: { className?: string }) => {
       {/* Right Eye wrapper */}
       <div
         ref={rightEyeRef}
-        className="absolute w-8 h-8 -ml-4 -mt-4 z-10 flex items-center justify-center"
+        className="absolute w-8 h-8 -ml-4 -mt-[30px] md:-mt-4 z-10 flex items-center justify-center"
         style={{ top: '16%', left: '67.6%' }}
       >
         <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#111] transition-transform duration-100 ease-out" />
       </div>
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 border border-white/5 m-4 transition-all duration-500 group-hover:border-brand-gold/50 z-20">
-        <div className="w-14 h-14 rounded-full border border-white/20 text-brand-gold flex items-center justify-center mb-4 group-hover:scale-110 transition-transform bg-black/40 backdrop-blur-[2px]">
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 border border-white/5 m-4 transition-all duration-500 md:group-hover:border-brand-gold/50 z-20">
+        <div className="w-14 h-14 rounded-full border border-white/20 text-brand-gold flex items-center justify-center mb-4 md:group-hover:scale-110 transition-transform bg-black/40 backdrop-blur-[2px]">
           <ArrowUpRight className="w-6 h-6" />
         </div>
         <h3 className="font-display text-white text-2xl tracking-[0.25em] drop-shadow-lg">PROCESS</h3>
-        <p className="text-white text-[10px] font-bold mt-3 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 drop-shadow-md">
+        <p className="text-white text-[10px] font-bold mt-3 uppercase tracking-widest opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity transform translate-y-0 md:translate-y-2 md:group-hover:translate-y-0 drop-shadow-md text-center">
           Discover • Define • Design
         </p>
       </div>
@@ -158,6 +174,21 @@ const PortfolioGrid: React.FC = () => {
         }
         .animate-float {
           animation: float 6s ease-in-out infinite;
+        }
+        @keyframes levitate {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-12px) scale(1.02); }
+        }
+        .animate-levitate {
+          animation: levitate 8s ease-in-out infinite;
+          transform-origin: center bottom;
+        }
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          animation: marquee 15s linear infinite;
         }
       `}</style>
 
@@ -240,19 +271,34 @@ const PortfolioGrid: React.FC = () => {
 
         {/* 5. Services - Full Width with Floating Hanuman */}
         <div className="w-full h-[450px] relative bg-[#D4B37F] group overflow-hidden flex flex-col justify-start items-center pt-8 pb-8 cursor-pointer border-t border-brand-green/20">
-          <div className="absolute inset-[-10%] z-0 pointer-events-none animate-float">
+          {/* Background Image */}
+          <div className="absolute inset-[-5%] z-0 pointer-events-none animate-levitate">
             <Image
               src="/images/hanuman.jpeg"
               alt="Our Services"
               fill
-              className="object-cover object-top"
+              className="object-cover object-center"
             />
+          </div>
+
+          {/* Scrolling Text Layer */}
+          <div className="absolute top-[40%] left-0 w-[200%] overflow-hidden flex items-center z-10 pointer-events-none opacity-30 mix-blend-overlay">
+            <div className="flex animate-marquee whitespace-nowrap">
+              <span className="font-display text-6xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-6xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-6xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-6xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-6xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-6xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-6xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-6xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+            </div>
           </div>
 
           <div className="relative z-20 text-center mt-2">
             <h3 className="font-serif italic text-4xl text-[#0B4634] drop-shadow-md leading-none">OUR</h3>
             <h3 className="font-display text-4xl text-[#0B4634] tracking-widest drop-shadow-md leading-none">SERVICES</h3>
-            <div className="w-12 h-12 mt-6 mx-auto rounded-full bg-[#907851] text-white flex items-center justify-center hover:bg-[#0B4634] transition-colors shadow-lg">
+            <div className="w-12 h-12 mt-6 mx-auto rounded-full bg-[#0B4634] text-white flex items-center justify-center hover:scale-110 transition-transform shadow-lg">
               <ArrowDown className="w-6 h-6" />
             </div>
           </div>
@@ -377,19 +423,34 @@ const PortfolioGrid: React.FC = () => {
 
         {/* 6. Services (Tall Right) - Col 4, Row 2-3 */}
         <div className="col-span-1 row-span-2 relative bg-[#D4B37F] group overflow-hidden flex flex-col border-l border-brand-green/10 justify-start items-center pt-10 pb-8 cursor-pointer">
-          <div className="absolute inset-[-10%] z-0 pointer-events-none animate-float">
+          {/* Background Image */}
+          <div className="absolute inset-[-5%] z-0 pointer-events-none animate-levitate">
             <Image
               src="/images/hanuman.jpeg"
               alt="Our Services"
               fill
-              className="object-cover object-top"
+              className="object-cover object-center"
             />
+          </div>
+
+          {/* Scrolling Text Layer */}
+          <div className="absolute top-[40%] left-0 w-[200%] overflow-hidden flex items-center z-10 pointer-events-none opacity-30 mix-blend-overlay">
+            <div className="flex animate-marquee whitespace-nowrap">
+              <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+              <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
+            </div>
           </div>
 
           <div className="relative z-20 text-center">
             <h3 className="font-serif italic text-4xl xl:text-5xl text-[#0B4634] drop-shadow-md leading-none">OUR</h3>
             <h3 className="font-display text-3xl xl:text-4xl text-[#0B4634] tracking-widest drop-shadow-md leading-none">SERVICES</h3>
-            <div className="w-12 h-12 mt-8 mx-auto rounded-full bg-[#907851] text-white flex items-center justify-center group-hover:bg-[#0B4634] transition-colors shadow-lg">
+            <div className="w-12 h-12 mt-8 mx-auto rounded-full bg-[#0B4634] text-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
               <ArrowDown className="w-6 h-6" />
             </div>
           </div>
