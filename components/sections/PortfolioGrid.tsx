@@ -279,6 +279,18 @@ const PortfolioGrid: React.FC = () => {
               fill
               className="object-cover object-center"
             />
+            {/* Warm golden lighting aura */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,215,0,0.15)_0%,_transparent_60%)] mix-blend-plus-lighter z-10 transition-opacity duration-1000"></div>
+            {/* Golden light rays via conic-gradient overlay */}
+            <div className="absolute inset-0 opacity-20 mix-blend-overlay z-10" style={{ backgroundImage: 'conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(255,223,0,0.3) 45deg, transparent 90deg, rgba(255,223,0,0.3) 135deg, transparent 180deg)' }}></div>
+          </div>
+
+          {/* Delicate shadow beneath */}
+          <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-4/5 h-16 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0.3)_0%,_transparent_70%)] blur-[8px] z-0 pointer-events-none"></div>
+
+          {/* Subtitle */}
+          <div className="absolute bottom-4 left-0 w-full text-center z-10 pointer-events-none">
+            <p className="font-sans text-brand-dark/60 text-[10px] sm:text-xs tracking-[0.2em] uppercase font-light">Subtle divine levitation</p>
           </div>
 
           {/* Scrolling Text Layer */}
@@ -431,6 +443,18 @@ const PortfolioGrid: React.FC = () => {
               fill
               className="object-cover object-center"
             />
+            {/* Warm golden lighting aura */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,215,0,0.15)_0%,_transparent_60%)] mix-blend-plus-lighter z-10 transition-opacity duration-1000 group-hover:bg-[radial-gradient(circle_at_center,_rgba(255,215,0,0.25)_0%,_transparent_60%)]"></div>
+            {/* Golden light rays via conic-gradient overlay */}
+            <div className="absolute inset-0 opacity-20 mix-blend-overlay z-10" style={{ backgroundImage: 'conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(255,223,0,0.3) 45deg, transparent 90deg, rgba(255,223,0,0.3) 135deg, transparent 180deg)' }}></div>
+          </div>
+
+          {/* Delicate shadow beneath */}
+          <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 w-3/4 h-20 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0.25)_0%,_transparent_70%)] blur-[12px] z-0 pointer-events-none group-hover:scale-105 transition-transform duration-[8s]"></div>
+
+          {/* Subtitle */}
+          <div className="absolute bottom-6 left-0 w-full text-center z-10 pointer-events-none">
+            <p className="font-sans text-brand-dark/50 text-xs tracking-[0.2em] uppercase font-light opacity-80 group-hover:opacity-100 transition-opacity">Subtle divine levitation</p>
           </div>
 
           {/* Scrolling Text Layer */}
