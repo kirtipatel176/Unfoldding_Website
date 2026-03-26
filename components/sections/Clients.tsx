@@ -3,9 +3,9 @@
 import React from 'react';
 import Image from 'next/image';
 
-// All logos share the same display dimensions for visual consistency
-const LOGO_WIDTH = 160;
-const LOGO_HEIGHT = 56;
+// Responsive base dimensions for images (Next.js Image requires numbers)
+const BASE_WIDTH = 160;
+const BASE_HEIGHT = 56;
 
 const clients = [
   {
@@ -36,8 +36,8 @@ const clients = [
   },
 ];
 
-// Duplicate for seamless infinite vertical loop
-const marqueeItems = [...clients, ...clients];
+// Duplicate items to ensure enough content for a seamless loop even on tall ultra-wide monitors
+const marqueeItems = [...clients, ...clients, ...clients, ...clients];
 
 const Clients: React.FC = () => {
   return (
@@ -77,8 +77,9 @@ const Clients: React.FC = () => {
             aspectRatio: '1 / 1',
             overflow: 'hidden',
             display: 'flex',
-            alignItems: 'center',
             justifyContent: 'center',
+            alignItems: 'flex-start', // pin to top so translation loop is mathematically exact
+            paddingTop: '1rem', // place user's requested 1rem padding outside the scroll container
             // Fade top/bottom edges
             maskImage: 'linear-gradient(to bottom, transparent, black 18%, black 82%, transparent)',
             WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 18%, black 82%, transparent)',
@@ -86,26 +87,18 @@ const Clients: React.FC = () => {
         >
           {/* Vertical scrolling track */}
           <div
+            className="flex flex-col items-center gap-4 pb-4 md:gap-[2.4rem] md:pb-[2.4rem]"
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '2.4rem',
+              // responsive gap and matching paddingBottom ensures one Set's total height is mathematically perfect
               animation: 'marquee-vertical 18s linear infinite',
-              paddingTop: '1rem',
             }}
           >
             {marqueeItems.map((client, index) => (
-              // Wrapper enforces equal size for every logo
+              // Wrapper enforces equal size for every logo, scaling down gracefully on smaller screens
               <div
                 key={`${client.name}-${index}`}
+                className="w-16 h-6 sm:w-20 sm:h-7 md:w-28 md:h-10 lg:w-40 lg:h-14 flex items-center justify-center shrink-0"
                 style={{
-                  width: `${LOGO_WIDTH}px`,
-                  height: `${LOGO_HEIGHT}px`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
                   // Apply blend mode on wrapper, NOT on Image, to avoid
                   // filter stacking context that breaks mix-blend-mode
                   ...(client.transparent ? { mixBlendMode: 'darken' as const } : {}),
@@ -114,14 +107,10 @@ const Clients: React.FC = () => {
                 <Image
                   src={client.src}
                   alt={client.name}
-                  width={LOGO_WIDTH}
-                  height={LOGO_HEIGHT}
+                  width={BASE_WIDTH}
+                  height={BASE_HEIGHT}
+                  className="max-h-full max-w-full w-auto h-auto object-contain"
                   style={{
-                    maxHeight: `${LOGO_HEIGHT}px`,
-                    maxWidth: `${LOGO_WIDTH}px`,
-                    width: 'auto',
-                    height: 'auto',
-                    objectFit: 'contain',
                     // Scale individual logos that have baked-in whitespace
                     ...('scale' in client && client.scale ? { transform: `scale(${client.scale})` } : {}),
                     // Only add shadow to non-transparent logos
@@ -139,7 +128,7 @@ const Clients: React.FC = () => {
       <style>{`
         @keyframes marquee-vertical {
           0%   { transform: translateY(0); }
-          100% { transform: translateY(-50%); }
+          100% { transform: translateY(-25%); } /* Translates exactly 1 Set out of the 4 */
         }
       `}</style>
     </section>

@@ -122,6 +122,7 @@ const TileServices = () => {
                     src="/images/hanuman.jpeg"
                     alt="Our Services"
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover object-center"
                 />
                 {/* Warm golden aura — pulses in sync with the float */}
@@ -205,6 +206,7 @@ const TilePiedPiper = () => {
             src="/images/Pied Piper.png"
             alt="Pied Piper"
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover group-hover:scale-105 transition-transform duration-700"
         />
     );

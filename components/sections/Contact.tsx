@@ -98,6 +98,7 @@ const Contact: React.FC = () => {
                     src="/images/f-1.png"
                     alt="Left Figure"
                     fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-contain"
                   />
                 </div>
@@ -116,6 +117,7 @@ const Contact: React.FC = () => {
                       src="/images/f-2.png"
                       alt="Right Figure"
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-contain"
                     />
                   </div>
