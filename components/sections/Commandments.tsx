@@ -27,7 +27,7 @@ const TypewriterText = ({ text }: { text: string }) => {
 
     if (!isDeleting && displayText === text) {
       // Pause at the end before deleting
-      timer = setTimeout(() => setIsDeleting(true), 2000); 
+      timer = setTimeout(() => setIsDeleting(true), 2000);
     } else if (isDeleting && displayText === '') {
       // Pause before re-typing
       timer = setTimeout(() => setIsDeleting(false), 500);
@@ -48,7 +48,7 @@ const TypewriterText = ({ text }: { text: string }) => {
     <span className="relative block">
       {/* Invisible text reserves full height/width to prevent layout shifts */}
       <span className="invisible">{text}</span>
-      
+
       {/* Animated text overlay */}
       <span className="absolute top-0 left-0">
         {displayText}

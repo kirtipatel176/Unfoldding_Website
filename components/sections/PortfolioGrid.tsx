@@ -116,7 +116,7 @@ const TileAurum = () => {
 const TileServices = () => {
     return (
         <>
-            {/* Background Image */}
+            {/* Background Image — slow divine float */}
             <div className="absolute inset-[-5%] z-0 pointer-events-none animate-levitate">
                 <Image
                     src="/images/hanuman.jpeg"
@@ -124,14 +124,23 @@ const TileServices = () => {
                     fill
                     className="object-cover object-center"
                 />
-                {/* Warm golden lighting aura */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,215,0,0.15)_0%,_transparent_60%)] mix-blend-plus-lighter z-10 transition-opacity duration-1000 group-hover:bg-[radial-gradient(circle_at_center,_rgba(255,215,0,0.25)_0%,_transparent_60%)]"></div>
-                {/* Golden light rays via conic-gradient overlay */}
-                <div className="absolute inset-0 opacity-20 mix-blend-overlay z-10" style={{ backgroundImage: 'conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(255,223,0,0.3) 45deg, transparent 90deg, rgba(255,223,0,0.3) 135deg, transparent 180deg)' }}></div>
+                {/* Warm golden aura — pulses in sync with the float */}
+                <div
+                    className="absolute inset-0 mix-blend-plus-lighter z-10 animate-divine-glow"
+                    style={{ background: 'radial-gradient(circle at 50% 40%, rgba(255,210,80,0.35) 0%, rgba(255,180,0,0.12) 45%, transparent 70%)' }}
+                />
+                {/* Conic light-ray halo */}
+                <div
+                    className="absolute inset-0 mix-blend-overlay z-10 opacity-15"
+                    style={{ backgroundImage: 'conic-gradient(from 180deg at 50% 40%, transparent 0deg, rgba(255,223,0,0.4) 40deg, transparent 90deg, rgba(255,223,0,0.4) 130deg, transparent 180deg)' }}
+                />
             </div>
 
-            {/* Delicate shadow beneath */}
-            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 w-3/4 h-20 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0.25)_0%,_transparent_70%)] blur-[12px] z-0 pointer-events-none group-hover:scale-105 transition-transform duration-[8s]"></div>
+            {/* Breathing shadow beneath — shrinks as image rises */}
+            <div
+                className="absolute bottom-10 left-1/2 w-[55%] h-10 blur-[14px] z-0 pointer-events-none animate-shadow-breathe"
+                style={{ background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.30) 0%, transparent 70%)' }}
+            />
 
             {/* Subtitle */}
             <div className="absolute bottom-6 left-0 w-full text-center z-10 pointer-events-none">
@@ -348,11 +357,28 @@ const PortfolioGrid: React.FC = () => {
         }
         @keyframes levitate {
           0%, 100% { transform: translateY(0) scale(1); }
-          50% { transform: translateY(-12px) scale(1.02); }
+          30%       { transform: translateY(-6px) scale(1.008); }
+          60%       { transform: translateY(-14px) scale(1.015); }
+          80%       { transform: translateY(-8px) scale(1.01); }
         }
         .animate-levitate {
-          animation: levitate 8s ease-in-out infinite;
+          animation: levitate 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
           transform-origin: center bottom;
+          will-change: transform;
+        }
+        @keyframes divine-glow {
+          0%, 100% { opacity: 0.12; }
+          50%       { opacity: 0.28; }
+        }
+        .animate-divine-glow {
+          animation: divine-glow 12s ease-in-out infinite;
+        }
+        @keyframes shadow-breathe {
+          0%, 100% { transform: translateX(-50%) scaleX(1);   opacity: 0.18; }
+          50%       { transform: translateX(-50%) scaleX(0.82); opacity: 0.08; }
+        }
+        .animate-shadow-breathe {
+          animation: shadow-breathe 12s ease-in-out infinite;
         }
         @keyframes marquee {
           0% { transform: translateX(0); }

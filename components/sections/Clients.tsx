@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { scale } from 'framer-motion';
 
 // All logos share the same display dimensions for visual consistency
 const LOGO_WIDTH = 160;
