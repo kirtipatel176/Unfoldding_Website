@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
         try {
           await audioRef.current.play();
           setIsPlaying(true);
-        } catch (err) {
+        } catch {
           // Expected behavior: Browsers block unmuted autoplay until user interacts.
           // Wait silently instead of polluting the console with warnings.
           setIsPlaying(false);
