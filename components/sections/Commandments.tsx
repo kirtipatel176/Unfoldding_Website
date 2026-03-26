@@ -19,20 +19,42 @@ const COMMANDMENTS_DATA: Commandment[] = [
 ];
 
 const TypewriterText = ({ text }: { text: string }) => {
+  const [displayText, setDisplayText] = React.useState('');
+  const [isDeleting, setIsDeleting] = React.useState(false);
+
+  React.useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (!isDeleting && displayText === text) {
+      // Pause at the end before deleting
+      timer = setTimeout(() => setIsDeleting(true), 2000); 
+    } else if (isDeleting && displayText === '') {
+      // Pause before re-typing
+      timer = setTimeout(() => setIsDeleting(false), 500);
+    } else {
+      // Typing or deleting speed
+      const speed = isDeleting ? 20 : 50;
+      timer = setTimeout(() => {
+        setDisplayText(
+          text.substring(0, displayText.length + (isDeleting ? -1 : 1))
+        );
+      }, speed);
+    }
+
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, text]);
+
   return (
-    <>
-      {text.split('').map((char, index) => (
-        <motion.span
-          key={`${char}-${index}`}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: { opacity: 1 },
-          }}
-        >
-          {char}
-        </motion.span>
-      ))}
-    </>
+    <span className="relative block">
+      {/* Invisible text reserves full height/width to prevent layout shifts */}
+      <span className="invisible">{text}</span>
+      
+      {/* Animated text overlay */}
+      <span className="absolute top-0 left-0">
+        {displayText}
+        <span className="animate-pulse inline-block opacity-70 ml-[2px] font-light">|</span>
+      </span>
+    </span>
   );
 };
 
@@ -147,9 +169,7 @@ const Commandments: React.FC = () => {
           <div className="absolute inset-y-0 left-[20%] flex items-center z-10 pointer-events-none">
             <h2
               className="font-display text-[60px] sm:text-[90px] md:text-[120px] lg:text-[140px] tracking-tight text-[#0B4634] uppercase"
-              style={{
-                writingMode: 'sideways-lr',
-              }}
+              style={{ writingMode: 'sideways-lr' }}
             >
               <span className="font-burgues text-[70px] sm:text-[110px] md:text-[150px] lg:text-[180px] mr-2">C</span>OMMANDMENTS
             </h2>
