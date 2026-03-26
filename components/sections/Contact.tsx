@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -14,19 +15,57 @@ const Contact: React.FC = () => {
   // Track progress based on expected string length for faster feedback
   const getProgress = (str: string, max: number) => Math.min(1, Math.max(0, str.trim().length / max));
 
-  // Max total progress is 4.0 if all fields hit their char thresholds
+  // Max total progress is 4.0 if all fields hit their char thresholds (4 + 8 + 8 + 12 = 32 chars total)
   const totalProgress =
     getProgress(formData.name, 4) +
     getProgress(formData.contact, 8) +
     getProgress(formData.email, 8) +
     getProgress(formData.message, 12);
 
-  // They start at 0% (natural grid locations) and move progressively to 56% (touching without overlapping)
-  // 4 fields * 14% = 56% total movement inwards per figure.
-  // We use `totalProgress` so it smoothly interpolates exactly simultaneously.
-  const translateVal = totalProgress * 13.9;
+  // Use 13.65 so that 4.0 * 13.65 = 54.6 max translation
+  const translateVal = totalProgress * 13.30;
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (!formData.name.trim()) {
+      toast.error('Please enter your name.');
+      return;
+    }
+
+    if (!formData.contact.trim()) {
+      toast.error('Please enter your contact number.');
+      return;
+    }
+
+    if (formData.contact.trim().length < 6) {
+      toast.error('Please enter a valid contact number.');
+      return;
+    }
+
+    if (!formData.email.trim()) {
+      toast.error('Please enter your email address.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email.trim())) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
+
+    if (!formData.message.trim()) {
+      toast.error('Please enter your message.');
+      return;
+    }
+
+    toast.success('Thank you! Your message has been sent.');
+    setFormData({ name: '', contact: '', email: '', message: '' });
+  };
+
   return (
     <section className="w-full bg-[#2F6B3E] relative overflow-hidden font-serif py-12 md:py-20">
+      <Toaster position="bottom-right" toastOptions={{ style: { background: '#333', color: '#fff' } }} />
 
       <div className="relative w-full max-w-7xl mx-auto px-8 md:px-12 lg:px-16">
 
@@ -59,6 +98,7 @@ const Contact: React.FC = () => {
                     src="/images/f-1.png"
                     alt="Left Figure"
                     fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-contain"
                   />
                 </div>
@@ -77,6 +117,7 @@ const Contact: React.FC = () => {
                       src="/images/f-2.png"
                       alt="Right Figure"
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-contain"
                     />
                   </div>
@@ -105,10 +146,19 @@ const Contact: React.FC = () => {
             />
 
             <input
-              type="text"
+              type="tel"
               placeholder="Contact No."
               value={formData.contact}
-              onChange={(e) => setFormData(p => ({ ...p, contact: e.target.value }))}
+              onChange={(e) => {
+                const val = e.target.value;
+                const numericVal = val.replace(/\D/g, '');
+                
+                if (val !== numericVal) {
+                  toast.error('Only numbers are allowed for the contact number.', { id: 'contact-only-numbers' });
+                }
+                
+                setFormData(p => ({ ...p, contact: numericVal.slice(0, 15) }));
+              }}
               className="w-full bg-transparent border-b border-white border-b-[1px] py-3 text-white text-lg placeholder-white/70 focus:outline-none font-light tracking-wide transition-colors focus:border-[#B8956A]"
             />
 
@@ -117,6 +167,14 @@ const Contact: React.FC = () => {
               placeholder="Email"
               value={formData.email}
               onChange={(e) => setFormData(p => ({ ...p, email: e.target.value }))}
+              onBlur={() => {
+                if (formData.email.trim() !== '') {
+                  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                  if (!emailRegex.test(formData.email.trim())) {
+                    toast.error('Please enter a valid email address.', { id: 'email-format-error' });
+                  }
+                }
+              }}
               className="w-full bg-transparent border-b border-white border-b-[1px] py-3 text-white text-lg placeholder-white/70 focus:outline-none font-light tracking-wide transition-colors focus:border-[#B8956A]"
             />
 
@@ -141,8 +199,9 @@ const Contact: React.FC = () => {
         {/* Submit Button */}
         <div className="relative z-30 mt-8 md:mt-12 flex justify-center md:justify-end">
           <button
-            type="submit"
-            className="bg-white text-[#2F6B3E] px-12 py-3 font-serif text-lg tracking-wide hover:bg-white/90 transition-all duration-300 uppercase"
+            type="button"
+            onClick={handleSubmit}
+            className="bg-white text-[#2F6B3E] px-12 py-3 font-serif text-lg tracking-wide hover:bg-white/90 transition-all duration-300 uppercase cursor-pointer"
           >
             Submit
           </button>

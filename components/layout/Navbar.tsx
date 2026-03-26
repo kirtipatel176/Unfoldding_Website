@@ -15,8 +15,9 @@ const Navbar: React.FC = () => {
         try {
           await audioRef.current.play();
           setIsPlaying(true);
-        } catch (err) {
-          console.log('Autoplay blocked, waiting for user interaction', err);
+        } catch {
+          // Expected behavior: Browsers block unmuted autoplay until user interacts.
+          // Wait silently instead of polluting the console with warnings.
           setIsPlaying(false);
         }
       }
@@ -49,6 +50,7 @@ const Navbar: React.FC = () => {
             width={120}
             height={120}
             className="h-30 w-auto"
+            style={{ width: 'auto', height: 'auto' }}
             priority
           />
         </div>

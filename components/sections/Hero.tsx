@@ -1,133 +1,13 @@
 'use client';
 
-import React, { useEffect, useRef, useCallback } from 'react';
-
-// ─────────────────────────────────────────────────────────────────────────────
-// CONFIG
-// ─────────────────────────────────────────────────────────────────────────────
-const TOTAL_FRAMES = 192;
-const SCROLL_DISTANCE_PX = 2400;
-const EASE = 0.12;
-
-function buildFramePaths(): string[] {
-  return Array.from({ length: TOTAL_FRAMES }, (_, i) => {
-    const num = String(i + 1).padStart(3, '0');
-    return `/images/hero_animation/ezgif-frame-${num}.jpg`;
-  });
-}
+import React from 'react';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // COMPONENT
 // ─────────────────────────────────────────────────────────────────────────────
 const Hero: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const canvasMobileRef = useRef<HTMLCanvasElement>(null);
-  const canvasDesktopRef = useRef<HTMLCanvasElement>(null);
-  const imagesRef = useRef<HTMLImageElement[]>([]);
-  const currentFrameRef = useRef(0);
-  const displayFrameRef = useRef(0);
-  const rafRef = useRef<number | null>(null);
-
-  const drawFrame = useCallback((index: number) => {
-    const img = imagesRef.current[Math.round(index)];
-    if (!img || !img.complete || img.naturalWidth === 0) return;
-
-    const canvases = [canvasMobileRef.current, canvasDesktopRef.current];
-    canvases.forEach(canvas => {
-      if (!canvas) return;
-      if (canvas.offsetParent === null) return;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-      if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-      }
-
-      // Clear canvas for transparent background
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0);
-
-      // Make white and light gray (checkerboard) background transparent
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const data = imageData.data;
-      for (let i = 0; i < data.length; i += 4) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
-        const max = Math.max(r, g, b);
-        const min = Math.min(r, g, b);
-
-        // Solid white or near-white background
-        const isWhite = r > 240 && g > 240 && b > 240;
-
-        // Light gray checkerboard pattern (color roughly rgb(204,204,204) to rgb(230,230,230))
-        // Checkerboard is pure gray, max-min is very close to 0
-        const isGrayChecker = r > 180 && g > 180 && b > 180 && (max - min) < 10;
-
-        if (isWhite || isGrayChecker) {
-          data[i + 3] = 0; // Alpha
-        }
-      }
-      ctx.putImageData(imageData, 0, 0);
-    });
-  }, []);
-
-  const animate = useCallback(() => {
-    rafRef.current = requestAnimationFrame(animate);
-    displayFrameRef.current += (currentFrameRef.current - displayFrameRef.current) * EASE;
-    drawFrame(Math.min(Math.round(displayFrameRef.current), TOTAL_FRAMES - 1));
-  }, [drawFrame]);
-
-  const onScroll = useCallback(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    const scrolled = -container.getBoundingClientRect().top;
-    const progress = Math.min(Math.max(scrolled / SCROLL_DISTANCE_PX, 0), 1);
-    currentFrameRef.current = Math.round(progress * (TOTAL_FRAMES - 1));
-  }, []);
-
-  useEffect(() => {
-    const paths = buildFramePaths();
-    const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
-    imagesRef.current = images;
-    let firstFrameLoaded = false;
-
-    function loadImage(i: number) {
-      const img = new Image();
-      img.src = paths[i];
-      images[i] = img;
-      img.onload = () => {
-        if (!firstFrameLoaded && i === 0) {
-          firstFrameLoaded = true;
-          drawFrame(0);
-        }
-      };
-    }
-
-    loadImage(0);
-    for (let i = 1; i < TOTAL_FRAMES; i++) {
-      loadImage(i);
-    }
-  }, [drawFrame]);
-
-  useEffect(() => {
-    window.addEventListener('scroll', onScroll, { passive: true });
-    rafRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      if (rafRef.current !== null) {
-        cancelAnimationFrame(rafRef.current);
-      }
-    };
-  }, [onScroll, animate]);
-
   return (
-    <section
-      ref={containerRef}
-      style={{ height: `calc(90vh + ${SCROLL_DISTANCE_PX}px)` }}
-      className="relative w-full bg-brand-cream"
-    >
+    <section className="relative w-full bg-brand-cream">
       <div className="sticky top-0 w-full min-h-[100vh] pt-24 pb-12 overflow-hidden flex flex-col justify-center">
 
         {/* =========================================
@@ -153,13 +33,16 @@ const Hero: React.FC = () => {
             </h1>
           </div>
 
-          {/* Main Huge Image Canvas */}
-          <div className="relative w-full max-w-[600px] aspect-square flex items-center justify-center z-[5] -my-6 md:-my-10 pointer-events-none transform scale-110 md:scale-125">
-            <canvas
-              ref={canvasMobileRef}
-              className="object-contain w-full h-full mix-blend-darken"
-              style={{ filter: 'brightness(1.05) contrast(1.05)', background: 'transparent' }}
-              aria-label="Hero scroll animation"
+          {/* Main Video — Transparent Background */}
+          <div className="relative w-full max-w-[600px] flex items-center justify-center z-[5] -my-6 md:-my-10 pointer-events-none">
+            <video
+              src="/videos/horse_hero.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-contain mix-blend-multiply brightness-110 contrast-125"
+              aria-label="Horse hero animation"
             />
           </div>
 
@@ -184,7 +67,7 @@ const Hero: React.FC = () => {
           </div>
 
           {/* Bottom Text: DESIGN STORIES */}
-          <div className="flex flex-col items-center space-y-2 mb-16 text-center z-10 w-full">
+          <div className="flex flex-col items-center space-y-2 mb-16 mt-[30px] text-center z-10 w-full ">
             <div className="flex flex-row justify-center items-baseline">
               <h1 className="font-serif text-5xl md:text-7xl text-[#8B6F47] uppercase">
                 <span className="font-burgues text-7xl md:text-8xl relative top-2 mr-1">D</span>ESIGN
@@ -236,14 +119,17 @@ const Hero: React.FC = () => {
                 </div>
               </div>
 
-              {/* Center Image Canvas (Grown Larger) */}
-              <div className="relative z-[5] flex-1 flex items-center justify-center h-full w-[50%] lg:w-[40%]">
-                <div className="w-[400px] h-[400px] lg:w-[500px] lg:h-[500px] xl:w-[600px] xl:h-[600px] 2xl:w-[750px] 2xl:h-[750px] relative pointer-events-none transform scale-110 xl:scale-125">
-                  <canvas
-                    ref={canvasDesktopRef}
-                    className="mix-blend-darken object-contain w-full h-full"
-                    style={{ filter: 'brightness(1.05) contrast(1.05)', background: 'transparent' }}
-                    aria-label="Hero scroll animation desktop"
+              {/* Center Video (Transparent Background, Natural Size) */}
+              <div className="relative z-[5] flex-1 flex items-center justify-center h-full w-[70%] lg:w-[60%]">
+                <div className="relative w-full max-w-[600px] aspect-square flex items-center justify-center z-[5] -my-6 md:-my-10 pointer-events-none transform scale-110 md:scale-125">
+                  <video
+                    src="/videos/horse_hero.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-contain mix-blend-multiply brightness-110 contrast-125"
+                    aria-label="Horse hero animation desktop"
                   />
                 </div>
               </div>

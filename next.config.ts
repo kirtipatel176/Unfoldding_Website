@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     // Image optimization configuration
     images: {
         unoptimized: false,
+        qualities: [25, 50, 75, 100],
     },
 
     // Disable x-powered-by header
