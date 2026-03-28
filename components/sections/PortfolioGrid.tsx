@@ -201,14 +201,72 @@ const TileProject9 = () => {
 };
 
 const TilePiedPiper = () => {
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const musicRef = useRef<HTMLAudioElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleMouseEnter = async () => {
+            if (videoRef.current) {
+                try {
+                    await videoRef.current.play();
+                } catch (error) {
+                    console.log('Video autoplay blocked');
+                }
+            }
+            if (musicRef.current) {
+                musicRef.current.currentTime = 0;
+                musicRef.current.volume = 0.3;
+                try {
+                    await musicRef.current.play();
+                } catch (error) {
+                    console.log('Audio autoplay blocked');
+                }
+            }
+        };
+
+        const handleMouseLeave = () => {
+            if (videoRef.current) {
+                videoRef.current.pause();
+                videoRef.current.currentTime = 0;
+            }
+            if (musicRef.current) {
+                musicRef.current.pause();
+                musicRef.current.currentTime = 0;
+            }
+        };
+
+        const container = containerRef.current;
+        if (container) {
+            container.addEventListener('mouseenter', handleMouseEnter);
+            container.addEventListener('mouseleave', handleMouseLeave);
+        }
+
+        return () => {
+            if (container) {
+                container.removeEventListener('mouseenter', handleMouseEnter);
+                container.removeEventListener('mouseleave', handleMouseLeave);
+            }
+        };
+    }, []);
+
     return (
-        <Image
-            src="/images/Pied Piper.png"
-            alt="Pied Piper"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-700"
-        />
+        <div ref={containerRef} className="relative w-full h-full overflow-hidden bg-white">
+            <video
+                ref={videoRef}
+                src="/videos/Video_Generation_Successful.mp4"
+                className="w-full h-full object-cover"
+                muted
+                playsInline
+                preload="metadata"
+            />
+            <audio
+                ref={musicRef}
+                src="/music/universfield-calm-flute-for-documentaries-351909.mp3"
+                preload="auto"
+                loop
+            />
+        </div>
     );
 };
 
