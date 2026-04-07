@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play();
+        audioRef.current.play().catch(err => console.log('Audio playback failed:', err));
       }
       setIsPlaying(!isPlaying);
     }
@@ -64,7 +64,7 @@ const Navbar: React.FC = () => {
         </button>
         <audio
           ref={audioRef}
-          src="/music/universfield-calm-flute-for-documentaries-351909.mp3"
+          src="/audio/universfield-calm-flute-for-documentaries-351909.mp3"
           loop
         />
       </div>

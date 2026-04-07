@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { ArrowDown, MoveUpRight, ArrowUpRight } from 'lucide-react';
+import { ArrowDown, MoveUpRight } from 'lucide-react';
 
 const insideUpdates = [
     "Latest: Studio won 'Agency of Year'",
@@ -148,19 +148,6 @@ const TileServices = () => {
                 <p className="font-sans text-brand-dark/50 text-xs tracking-[0.2em] uppercase font-light opacity-80 group-hover:opacity-100 transition-opacity">Subtle divine levitation</p>
             </div>
 
-            {/* Scrolling Text Layer */}
-            <div className="absolute top-[40%] left-0 w-[200%] overflow-hidden flex items-center z-10 pointer-events-none opacity-30 mix-blend-overlay">
-                <div className="flex animate-marquee whitespace-nowrap">
-                    <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
-                    <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
-                    <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
-                    <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
-                    <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
-                    <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
-                    <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
-                    <span className="font-display text-5xl text-white mx-4 tracking-widest">OUR SERVICES</span>
-                </div>
-            </div>
 
             <div className="relative z-20 text-center">
                 <h3 className="font-serif italic text-4xl xl:text-5xl text-[#0B4634] drop-shadow-md leading-none">OUR</h3>
@@ -201,14 +188,22 @@ const TileProject9 = () => {
 };
 
 const TilePiedPiper = () => {
+    const videoRef = useRef<HTMLVideoElement>(null);
+
     return (
-        <Image
-            src="/images/Pied Piper.png"
-            alt="Pied Piper"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-700"
-        />
+        <div 
+            className="w-full h-full overflow-hidden"
+            onMouseEnter={() => videoRef.current?.play().catch(() => {})}
+            onMouseLeave={() => videoRef.current?.pause()}
+        >
+            <video 
+                ref={videoRef}
+                src="/videos/fluent.mp4"
+                loop
+                playsInline
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 pointer-events-none"
+            />
+        </div>
     );
 };
 
@@ -264,17 +259,19 @@ const ProcessDaVinci = ({ className = "" }: { className?: string }) => {
             style={{ containerType: 'size' }} // Enable cqw and cqh for the child
         >
             <div 
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" 
+                className="absolute top-0 md:top-1/2 left-1/2 -translate-x-1/2 translate-y-0 md:-translate-y-1/2 pointer-events-none" 
                 style={{
                     width: `max(100cqw, calc(100cqh * ${imgRatio}))`,
                     aspectRatio: `${imgRatio}`,
                     containerType: 'inline-size' // Enable cqi for the eyes
                 }}
             >
-                <img
+                <Image
                     src="/images/Davinci.jpeg"
                     alt="Process"
-                    className="absolute inset-0 w-full h-full object-cover pointer-events-auto"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover pointer-events-auto"
                     onLoad={(e) => {
                         const { naturalWidth, naturalHeight } = e.currentTarget;
                         if (naturalHeight > 0) setImgRatio(naturalWidth / naturalHeight);
