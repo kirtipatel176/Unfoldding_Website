@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: 'Bigilla';
+    src: url('/fonts/Bigilla (1).otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bigilla';
+    src: url('/fonts/Bigilla-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Burgues Script';
+    src: url('/fonts/Burgues Script Regular (1).otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@theme {
+    /* Brand Colors */
+    --color-brand-cream: #FFFFFF;
+    --color-brand-green: #0B4634;
+    --color-brand-gold: #C19B5F;
+    --color-brand-brown: #4A3B2A;
+    --color-brand-dark: #1a1a1a;
+
+    /* Font Families */
+    --font-family-serif: "Bigilla", "Georgia", serif;
+    --font-family-display: "Bigilla", "Georgia", serif;
+    --font-family-sans: "Lato", sans-serif;
+    --font-family-script: "Burgues Script", cursive;
+}
+
+/* Utility for Burgues Script font */
+.font-burgues {
+    font-family: 'Burgues Script', cursive;
+}
+
+/* Custom scrollbar to match aesthetic */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #FFFFFF;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #0B4634;
+}
+
+.text-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+}
