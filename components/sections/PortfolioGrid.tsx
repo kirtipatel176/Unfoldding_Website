@@ -207,7 +207,7 @@ const TilePiedPiper = () => {
     );
 };
 
-const ProcessDaVinci = ({ className = "" }: { className?: string }) => {
+const ProcessDaVinci = ({ className = "", isExpanded = false }: { className?: string, isExpanded?: boolean }) => {
     const leftPupilRef = useRef<HTMLDivElement>(null);
     const rightPupilRef = useRef<HTMLDivElement>(null);
     const [imgRatio, setImgRatio] = useState<number>(0.75); // Fallback ratio (~3:4)
@@ -253,15 +253,26 @@ const ProcessDaVinci = ({ className = "" }: { className?: string }) => {
         };
     }, []);
 
+    // Determine the sizing function based on expanded state
+    // min() acts like object-contain, max() acts like object-cover
+    const widthCalculation = isExpanded 
+        ? `min(100cqw, calc(100cqh * ${imgRatio}))`
+        : `max(100cqw, calc(100cqh * ${imgRatio}))`;
+
+    // When expanded, we always want it perfectly centered. Otherwise, we align top-0 on mobile so the head isn't cropped.
+    const positioningClasses = isExpanded
+        ? "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+        : "absolute top-0 md:top-1/2 left-1/2 -translate-x-1/2 translate-y-0 md:-translate-y-1/2 pointer-events-none";
+
     return (
         <div 
             className={`relative bg-black overflow-hidden cursor-pointer h-full w-full ${className}`} 
             style={{ containerType: 'size' }} // Enable cqw and cqh for the child
         >
             <div 
-                className="absolute top-0 md:top-1/2 left-1/2 -translate-x-1/2 translate-y-0 md:-translate-y-1/2 pointer-events-none" 
+                className={positioningClasses} 
                 style={{
-                    width: `max(100cqw, calc(100cqh * ${imgRatio}))`,
+                    width: widthCalculation,
                     aspectRatio: `${imgRatio}`,
                     containerType: 'inline-size' // Enable cqi for the eyes
                 }}
@@ -359,7 +370,7 @@ const PortfolioGrid: React.FC = () => {
             case 'symbol': return <TileSymbol />;
             case 'aurum': return <TileAurum />;
             case 'services': return <TileServices />;
-            case 'process': return <ProcessDaVinci />;
+            case 'process': return <ProcessDaVinci isExpanded={true} />;
             case 'grand-expedition': return <TileGrandExpedition />;
             case 'project-9': return <TileProject9 />;
             case 'pied-piper': return <TilePiedPiper />;
