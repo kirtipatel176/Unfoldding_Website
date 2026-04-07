@@ -210,7 +210,7 @@ const TilePiedPiper = () => {
             if (videoRef.current) {
                 try {
                     await videoRef.current.play();
-                } catch (error) {
+                } catch {
                     console.log('Video autoplay blocked');
                 }
             }
@@ -219,7 +219,7 @@ const TilePiedPiper = () => {
                 musicRef.current.volume = 0.3;
                 try {
                     await musicRef.current.play();
-                } catch (error) {
+                } catch {
                     console.log('Audio autoplay blocked');
                 }
             }
